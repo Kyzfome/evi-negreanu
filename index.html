@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ЄВІ — Англійська | Daniel Negreanu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <canvas id="particles-canvas" aria-hidden="true"></canvas>
+
+  <!-- ═══ WELCOME (новий дизайн) ═══ -->
+  <section id="welcome-screen" class="screen active">
+    <div class="welcome-wrap">
+      <div class="welcome-hero">
+        <span class="welcome-tag">Єдиний вступний іспит · Тренувальний тест</span>
+        <h1 class="welcome-title">
+          Read the table.<br />
+          <span class="title-accent">Pass the test.</span>
+        </h1>
+        <p class="welcome-desc">
+          Тридцять завдань у стилі ЄВІ: психологія, читання тексту та логіка на прикладі історії про легенду покеру Daniel Negreanu.
+        </p>
+        <button id="btn-start" class="btn-start">
+          Почати тест
+        </button>
+        <p class="welcome-hint">45 хв · таймер без пауз</p>
+      </div>
+      <div class="welcome-cards">
+        <div class="info-card" data-sec="A">
+          <span class="info-card-num">A</span>
+          <span class="info-card-title">Hero Reading</span>
+          <span class="info-card-detail">5 питань · Daniel Negreanu</span>
+        </div>
+        <div class="info-card" data-sec="B">
+          <span class="info-card-num">B</span>
+          <span class="info-card-title">Matching</span>
+          <span class="info-card-detail">6 питань · академічний текст</span>
+        </div>
+        <div class="info-card" data-sec="C">
+          <span class="info-card-num">C</span>
+          <span class="info-card-title">Grammar & Vocab</span>
+          <span class="info-card-detail">5 питань</span>
+        </div>
+        <div class="info-card" data-sec="D">
+          <span class="info-card-num">D</span>
+          <span class="info-card-title">Gap-Filling</span>
+          <span class="info-card-detail">14 питань · 2 тексти</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ QUIZ (нова архітектура: сайдбар + контент) ═══ -->
+  <section id="quiz-screen" class="screen">
+    <aside class="quiz-sidebar">
+      <div class="sidebar-timer" id="timer-wrap">
+        <span class="sidebar-timer-label">Час</span>
+        <span class="sidebar-timer-value" id="timer-display">45:00</span>
+      </div>
+      <div class="sidebar-progress">
+        <span class="sidebar-progress-label">Прогрес</span>
+        <div class="sidebar-progress-bar">
+          <div class="sidebar-progress-fill" id="progress-fill"></div>
+        </div>
+        <span class="sidebar-progress-text" id="sidebar-progress-text">0 / 30</span>
+      </div>
+      <div class="sidebar-section" id="section-pill">Section A</div>
+      <nav class="sidebar-nav" id="question-nav-bar" aria-label="Нумерація питань"></nav>
+    </aside>
+
+    <div class="quiz-content">
+      <div class="reading-panel" id="text-panel">
+        <div class="reading-panel-head">
+          <span class="reading-panel-label" id="text-panel-label">Текст для читання</span>
+          <button type="button" class="reading-panel-toggle" id="text-toggle-btn" aria-label="Згорнути текст">
+            <span id="text-toggle-label">Згорнути</span>
+          </button>
+        </div>
+        <div class="reading-panel-body" id="text-panel-body">
+          <p id="reading-text"></p>
+        </div>
+      </div>
+
+      <article class="question-block" id="question-card">
+        <header class="question-head">
+          <span class="question-num" id="q-number-badge">01</span>
+          <p class="question-statement" id="question-text"></p>
+        </header>
+        <ul class="options-grid" id="options-list" role="listbox"></ul>
+      </article>
+
+      <footer class="quiz-footer">
+        <div class="footer-group">
+          <button type="button" class="btn-footer btn-prev" id="btn-prev" disabled>Назад</button>
+          <button type="button" class="btn-footer btn-flag" id="btn-flag">
+            <span id="flag-icon" aria-hidden="true">⚐</span>
+            <span id="flag-label">Позначити</span>
+          </button>
+        </div>
+        <div class="footer-group footer-right">
+          <button type="button" class="btn-footer btn-next" id="btn-next">Далі</button>
+          <button type="button" class="btn-footer btn-submit" id="btn-submit" style="display:none">Завершити</button>
+        </div>
+      </footer>
+    </div>
+  </section>
+
+  <!-- ═══ RESULTS ═══ -->
+  <section id="results-screen" class="screen">
+    <canvas id="confetti-canvas" aria-hidden="true"></canvas>
+    <div class="results-inner">
+      <div class="results-header">
+        <div class="results-badge" id="results-badge">
+          <span class="results-score" id="results-score">0</span>
+          <span class="results-total">/ 30</span>
+        </div>
+        <h2 class="results-title" id="results-title">Результат</h2>
+        <p class="results-subtitle" id="results-subtitle"></p>
+        <div class="results-converted">
+          <span class="converted-label">Орієнтовний бал ЄВІ:</span>
+          <span class="converted-value" id="converted-score">—</span>
+        </div>
+      </div>
+      <div class="results-breakdown">
+        <div class="breakdown-card" data-section="A">
+          <div class="breakdown-label">A · Hero Reading</div>
+          <div class="breakdown-score" id="score-a">0 / 5</div>
+          <div class="breakdown-bar"><div class="breakdown-fill" id="bar-a"></div></div>
+        </div>
+        <div class="breakdown-card" data-section="B">
+          <div class="breakdown-label">B · Matching</div>
+          <div class="breakdown-score" id="score-b">0 / 6</div>
+          <div class="breakdown-bar"><div class="breakdown-fill" id="bar-b"></div></div>
+        </div>
+        <div class="breakdown-card" data-section="C">
+          <div class="breakdown-label">C · Grammar & Vocab</div>
+          <div class="breakdown-score" id="score-c">0 / 5</div>
+          <div class="breakdown-bar"><div class="breakdown-fill" id="bar-c"></div></div>
+        </div>
+        <div class="breakdown-card" data-section="D">
+          <div class="breakdown-label">D · Gap-Filling</div>
+          <div class="breakdown-score" id="score-d">0 / 14</div>
+          <div class="breakdown-bar"><div class="breakdown-fill" id="bar-d"></div></div>
+        </div>
+      </div>
+      <div class="results-actions">
+        <button type="button" class="btn-review" id="btn-review">Переглянути відповіді</button>
+        <button type="button" class="btn-restart" id="btn-restart">Пройти знову</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ REVIEW ═══ -->
+  <section id="review-screen" class="screen">
+    <div class="review-inner">
+      <div class="review-header">
+        <button type="button" class="btn-back-results" id="btn-back-results">← До результатів</button>
+        <h2 class="review-title">Перегляд відповідей</h2>
+      </div>
+      <div class="review-list" id="review-list"></div>
+    </div>
+  </section>
+
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
