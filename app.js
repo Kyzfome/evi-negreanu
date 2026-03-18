@@ -8,7 +8,7 @@ const state = {
   timerInterval: null,
   started: false,
   finished: false,
-  textCollapsed: {}
+  // Text is always shown (no collapse/expand toggle).
 };
 
 const $ = id => document.getElementById(id);
@@ -124,7 +124,6 @@ function _renderContent(q, index) {
 
   const textPanel = $('text-panel');
   const readingTextEl = $('reading-text');
-  const textBody = $('text-panel-body');
 
   if (q.text || q.textDisplay) {
     textPanel.classList.remove('hidden');
@@ -139,11 +138,6 @@ function _renderContent(q, index) {
             ? 'Текст для зіставлення'
             : 'Hero Reading — Daniel Negreanu';
     }
-
-    const collapsed = state.textCollapsed[index] || false;
-    textBody.classList.toggle('collapsed', collapsed);
-    const toggleLabel = $('text-toggle-label');
-    if (toggleLabel) toggleLabel.textContent = collapsed ? 'Розгорнути' : 'Згорнути';
   } else {
     textPanel.classList.add('hidden');
   }
@@ -211,19 +205,6 @@ function goTo(index) {
   state.current = index;
   renderQuestion(index);
   renderQuestionNav();
-}
-
-const textToggleBtn = $('text-toggle-btn');
-if (textToggleBtn) {
-  textToggleBtn.addEventListener('click', () => {
-    const idx = state.current;
-    state.textCollapsed[idx] = !state.textCollapsed[idx];
-    const collapsed = state.textCollapsed[idx];
-    const body = $('text-panel-body');
-    if (body) body.classList.toggle('collapsed', collapsed);
-    const toggleLabel = $('text-toggle-label');
-    if (toggleLabel) toggleLabel.textContent = collapsed ? 'Розгорнути' : 'Згорнути';
-  });
 }
 
 $('btn-flag').addEventListener('click', () => {
@@ -402,7 +383,6 @@ function restartQuiz() {
   state.timerSeconds = 45 * 60;
   state.started = false;
   state.finished = false;
-  state.textCollapsed = {};
   clearInterval(state.timerInterval);
   updateTimerUI();
   showScreen('welcome');

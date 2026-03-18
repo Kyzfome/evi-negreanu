@@ -384,35 +384,11 @@ body {
   color: var(--accent);
 }
 
-.reading-panel-toggle {
-  font-family: var(--font);
-  font-size: 0.72rem;
-  color: var(--text-muted);
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0.25rem 0.5rem;
-  border-radius: var(--radius-sm);
-  transition: color 0.2s, background 0.2s;
-}
-
-.reading-panel-toggle:hover {
-  color: var(--accent);
-  background: var(--accent-soft);
-}
-
 .reading-panel-body {
   padding: 1rem 1.25rem;
   max-height: 200px;
   overflow-y: auto;
-  transition: max-height 0.35s var(--ease);
-}
-
-.reading-panel-body.collapsed {
-  max-height: 0;
-  padding-top: 0;
-  padding-bottom: 0;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .reading-panel-body p {
