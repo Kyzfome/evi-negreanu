@@ -386,7 +386,7 @@ body {
 
 .reading-panel-body {
   padding: 1rem 1.25rem;
-  max-height: 200px;
+  max-height: 1000px;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -891,4 +891,7 @@ body {
     flex-wrap: wrap;
   }
   #flag-label { display: none; }
+  .reading-panel-body {
+    max-height: 200px;
+  }
 }
