@@ -4,6 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ЄВІ — Англійська | Daniel Negreanu</title>
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('evi-theme');
+        document.documentElement.setAttribute('data-theme', t === 'light' ? 'light' : 'dark');
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -16,6 +26,12 @@
   <!-- ═══ WELCOME (новий дизайн) ═══ -->
   <section id="welcome-screen" class="screen active">
     <div class="welcome-wrap">
+      <div class="welcome-toolbar">
+        <button type="button" class="btn-export-pdf">Експорт у PDF (ключ)</button>
+        <button type="button" class="theme-toggle theme-toggle--toolbar" role="switch" aria-checked="false" aria-label="Увімкнути світлу тему">
+          <span class="theme-toggle-track" aria-hidden="true"><span class="theme-toggle-thumb"></span></span>
+        </button>
+      </div>
       <div class="welcome-hero">
         <span class="welcome-tag">Єдиний вступний іспит · Тренувальний тест</span>
         <h1 class="welcome-title">
@@ -69,26 +85,34 @@
         </div>
         <span class="sidebar-progress-text" id="sidebar-progress-text">0 / 30</span>
       </div>
-      <div class="sidebar-section" id="section-pill">Section A</div>
+      <div class="sidebar-meta-row">
+        <div class="sidebar-section" id="section-pill">Section A</div>
+        <button type="button" class="theme-toggle theme-toggle--sidebar" role="switch" aria-checked="false" aria-label="Увімкнути світлу тему">
+          <span class="theme-toggle-track" aria-hidden="true"><span class="theme-toggle-thumb"></span></span>
+        </button>
+      </div>
       <nav class="sidebar-nav" id="question-nav-bar" aria-label="Нумерація питань"></nav>
     </aside>
 
     <div class="quiz-content">
-      <div class="reading-panel" id="text-panel">
-        <div class="reading-panel-head">
-          <span class="reading-panel-label" id="text-panel-label">Текст для читання</span>
-        </div>
-        <div class="reading-panel-body" id="text-panel-body">
-          <p id="reading-text"></p>
-        </div>
-      </div>
-
       <article class="question-block" id="question-card">
+        <div class="quiz-scroll-region" id="quiz-scroll-region">
+          <div class="reading-panel" id="text-panel">
+            <div class="reading-panel-head">
+              <span class="reading-panel-label" id="text-panel-label">Текст для читання</span>
+            </div>
+            <div class="reading-panel-body" id="text-panel-body">
+              <p id="reading-text"></p>
+            </div>
+          </div>
+        </div>
         <header class="question-head">
           <span class="question-num" id="q-number-badge">01</span>
           <p class="question-statement" id="question-text"></p>
         </header>
-        <ul class="options-grid" id="options-list" role="listbox"></ul>
+        <div class="quiz-answers-pane">
+          <ul class="options-grid" id="options-list" role="listbox"></ul>
+        </div>
       </article>
 
       <footer class="quiz-footer">
@@ -146,6 +170,7 @@
         </div>
       </div>
       <div class="results-actions">
+        <button type="button" class="btn-export-pdf">Експорт у PDF (ключ)</button>
         <button type="button" class="btn-review" id="btn-review">Переглянути відповіді</button>
         <button type="button" class="btn-restart" id="btn-restart">Пройти знову</button>
       </div>
@@ -163,7 +188,9 @@
     </div>
   </section>
 
+  <script src="vendor/jspdf.umd.min.js"></script>
   <script src="questions.js"></script>
+  <script src="pdf-export.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

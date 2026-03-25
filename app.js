@@ -125,7 +125,9 @@ function _renderContent(q, index) {
   const textPanel = $('text-panel');
   const readingTextEl = $('reading-text');
 
-  if (q.text || q.textDisplay) {
+  const scrollRegion = $('quiz-scroll-region');
+  const hasReading = !!(q.text || q.textDisplay);
+  if (hasReading) {
     textPanel.classList.remove('hidden');
     readingTextEl.textContent = q.text || q.textDisplay;
 
@@ -140,6 +142,10 @@ function _renderContent(q, index) {
     }
   } else {
     textPanel.classList.add('hidden');
+  }
+  if (scrollRegion) {
+    scrollRegion.classList.toggle('quiz-scroll-region--empty', !hasReading);
+    if (hasReading) scrollRegion.scrollTop = 0;
   }
 
   $('question-text').textContent = q.question;
@@ -170,6 +176,7 @@ function _renderContent(q, index) {
   const isLast = index === questions.length - 1;
   $('btn-next').style.display = isLast ? 'none' : 'flex';
   $('btn-submit').style.display = isLast ? 'inline-flex' : 'none';
+
 }
 
 function selectOption(qIndex, optIndex) {
@@ -388,3 +395,56 @@ function restartQuiz() {
   showScreen('welcome');
 }
 
+const THEME_KEY = 'evi-theme';
+
+function applyTheme(theme) {
+  const t = theme === 'light' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+  const isLight = t === 'light';
+  const label = isLight ? 'Увімкнути темну тему' : 'Увімкнути світлу тему';
+  document.querySelectorAll('.theme-toggle').forEach(btn => {
+    btn.setAttribute('aria-checked', isLight ? 'true' : 'false');
+    btn.setAttribute('aria-label', label);
+  });
+}
+
+function initTheme() {
+  let stored = 'dark';
+  try {
+    stored = localStorage.getItem(THEME_KEY) === 'light' ? 'light' : 'dark';
+  } catch (e) {
+    stored = 'dark';
+  }
+  applyTheme(stored);
+  const onToggle = () => {
+    const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    try {
+      localStorage.setItem(THEME_KEY, next);
+    } catch (e) {}
+    applyTheme(next);
+  };
+  document.querySelectorAll('.theme-toggle').forEach(btn => {
+    btn.addEventListener('click', onToggle);
+  });
+}
+
+initTheme();
+
+function initPdfExportButtons() {
+  document.querySelectorAll('.btn-export-pdf').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (typeof exportFullTestToPdf !== 'function') {
+        alert('Експорт PDF недоступний.');
+        return;
+      }
+      try {
+        exportFullTestToPdf();
+      } catch (e) {
+        console.error(e);
+        alert('Помилка під час створення PDF. Спробуйте ще раз.');
+      }
+    });
+  });
+}
+
+initPdfExportButtons();
