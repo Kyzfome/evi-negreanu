@@ -68,7 +68,11 @@ html[data-theme="light"] {
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { font-size: 16px; scroll-behavior: smooth; }
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  height: 100%;
+}
 
 html[data-theme="light"] { color-scheme: light; }
 html[data-theme="dark"] { color-scheme: dark; }
@@ -78,8 +82,9 @@ body {
   background: var(--bg-dark);
   color: var(--text);
   line-height: 1.6;
-  min-height: 100vh;
+  min-height: 100%;
   overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 #particles-canvas {
@@ -170,12 +175,14 @@ html[data-theme="light"] .theme-toggle-thumb {
 .screen {
   position: fixed;
   inset: 0;
+  height: 100dvh;
   display: flex;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.4s var(--ease);
   z-index: 1;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .screen.active {
@@ -329,12 +336,25 @@ html[data-theme="light"] #welcome-screen {
 .info-card[data-sec="D"] .info-card-num { color: var(--sec-d); }
 
 @media (max-width: 780px) {
+  #welcome-screen {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
   .welcome-wrap {
     grid-template-columns: 1fr;
     text-align: center;
+    padding-top: calc(env(safe-area-inset-top, 0px) + 0.9rem);
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem);
   }
+
   .welcome-toolbar {
     justify-content: center;
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    background: var(--bg-dark);
+    padding: 0.35rem 0;
   }
   .welcome-hero { align-items: center; }
   .welcome-desc { text-align: center; }
@@ -1134,6 +1154,21 @@ html[data-theme="light"] #welcome-screen {
 }
 
 @media (max-width: 600px) {
+  /* На дуже малих екранах скролиться весь блок питання,
+     щоб можна було переглянути і текст, і питання, і відповіді. */
+  .question-block {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  /* Вимикаємо вкладений скрол, щоб не було подвійного. */
+  .quiz-scroll-region {
+    overflow: visible;
+    flex: 0 0 auto;
+    max-height: none;
+  }
+
   .options-grid {
     grid-template-columns: 1fr;
     gap: 0.45rem;
@@ -1147,9 +1182,8 @@ html[data-theme="light"] #welcome-screen {
   }
   .question-head {
     padding: 0.75rem 1.05rem 0.65rem;
-    max-height: min(34vh, 9rem);
-    overflow-y: auto;
-    overscroll-behavior: contain;
+    max-height: none;
+    overflow: visible;
   }
   .question-num {
     font-size: 0.62rem;
