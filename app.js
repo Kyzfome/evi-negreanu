@@ -114,7 +114,8 @@ function _renderContent(q, index) {
 
   const pill = $('section-pill');
   if (pill) {
-    pill.textContent = `Section ${q.section}`;
+    const taskNames = { A: 'Task 1', B: 'Task 2', C: 'Task 3', D: 'Task 4' };
+    pill.textContent = taskNames[q.section] || `Section ${q.section}`;
     pill.className = `sidebar-section pill-${q.section}`;
   }
 
@@ -134,11 +135,13 @@ function _renderContent(q, index) {
     const labelEl = $('text-panel-label');
     if (labelEl) {
       labelEl.textContent =
-        q.type === 'gap_fill'
-          ? `Текст для заповнення (пропуск ${q.gapNumber})`
-          : q.type === 'matching'
-            ? 'Текст для зіставлення'
-            : 'Hero Reading — Daniel Negreanu';
+        q.type === 'vocab_gap'
+          ? `Task 3 — Vocabulary (gap ${q.gapNumber})`
+          : q.type === 'grammar_gap'
+            ? `Task 4 — Grammar (gap ${q.gapNumber})`
+            : q.type === 'reading'
+              ? 'Task 2 — Multiple Choice'
+              : 'Task 1 — Matching Headings';
     }
   } else {
     textPanel.classList.add('hidden');
@@ -148,11 +151,15 @@ function _renderContent(q, index) {
     if (hasReading) scrollRegion.scrollTop = 0;
   }
 
+  const instrEl = $('q-instruction');
+  if (instrEl) instrEl.textContent = q.instruction || '';
+
   $('question-text').textContent = q.question;
 
   const list = $('options-list');
   list.innerHTML = '';
-  const letters = ['A', 'B', 'C', 'D', 'E'];
+  list.className = q.options.length > 5 ? 'options-grid options-grid--wide' : 'options-grid';
+  const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
   q.options.forEach((opt, i) => {
     const li = document.createElement('li');
     li.className = 'option-item';
@@ -252,7 +259,7 @@ function finishQuiz() {
 }
 
 function computeResults() {
-  const sectionTotals = { A: 5, B: 6, C: 5, D: 14 };
+  const sectionTotals = { A: 5, B: 5, C: 10, D: 10 };
   const sectionCorrect = { A: 0, B: 0, C: 0, D: 0 };
   let total = 0;
 

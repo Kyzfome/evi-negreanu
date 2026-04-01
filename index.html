@@ -39,7 +39,7 @@
           <span class="title-accent">Pass the test.</span>
         </h1>
         <p class="welcome-desc">
-          Тридцять завдань у стилі ЄВІ: психологія, читання тексту та логіка на прикладі історії про легенду покеру Daniel Negreanu.
+          Тридцять завдань у форматі ЄВІ: matching headings, multiple choice, vocabulary та grammar — на прикладі кар'єри легенди покеру Daniel Negreanu.
         </p>
         <button id="btn-start" class="btn-start">
           Почати тест
@@ -49,23 +49,23 @@
       <div class="welcome-cards">
         <div class="info-card" data-sec="A">
           <span class="info-card-num">A</span>
-          <span class="info-card-title">Hero Reading</span>
-          <span class="info-card-detail">5 питань · Daniel Negreanu</span>
+          <span class="info-card-title">Matching Headings</span>
+          <span class="info-card-detail">5 питань · text with 5 paragraphs</span>
         </div>
         <div class="info-card" data-sec="B">
           <span class="info-card-num">B</span>
-          <span class="info-card-title">Matching</span>
-          <span class="info-card-detail">6 питань · академічний текст</span>
+          <span class="info-card-title">Multiple Choice</span>
+          <span class="info-card-detail">5 питань · reading text</span>
         </div>
         <div class="info-card" data-sec="C">
           <span class="info-card-num">C</span>
-          <span class="info-card-title">Grammar & Vocab</span>
-          <span class="info-card-detail">5 питань</span>
+          <span class="info-card-title">Vocabulary</span>
+          <span class="info-card-detail">10 питань · gap-fill</span>
         </div>
         <div class="info-card" data-sec="D">
           <span class="info-card-num">D</span>
-          <span class="info-card-title">Gap-Filling</span>
-          <span class="info-card-detail">14 питань · 2 тексти</span>
+          <span class="info-card-title">Grammar</span>
+          <span class="info-card-detail">10 питань · gap-fill</span>
         </div>
       </div>
     </div>
@@ -108,6 +108,7 @@
         </div>
         <header class="question-head">
           <span class="question-num" id="q-number-badge">01</span>
+          <p class="question-instruction" id="q-instruction"></p>
           <p class="question-statement" id="question-text"></p>
         </header>
         <div class="quiz-answers-pane">
@@ -149,23 +150,23 @@
       </div>
       <div class="results-breakdown">
         <div class="breakdown-card" data-section="A">
-          <div class="breakdown-label">A · Hero Reading</div>
+          <div class="breakdown-label">A · Matching Headings</div>
           <div class="breakdown-score" id="score-a">0 / 5</div>
           <div class="breakdown-bar"><div class="breakdown-fill" id="bar-a"></div></div>
         </div>
         <div class="breakdown-card" data-section="B">
-          <div class="breakdown-label">B · Matching</div>
-          <div class="breakdown-score" id="score-b">0 / 6</div>
+          <div class="breakdown-label">B · Multiple Choice</div>
+          <div class="breakdown-score" id="score-b">0 / 5</div>
           <div class="breakdown-bar"><div class="breakdown-fill" id="bar-b"></div></div>
         </div>
         <div class="breakdown-card" data-section="C">
-          <div class="breakdown-label">C · Grammar & Vocab</div>
-          <div class="breakdown-score" id="score-c">0 / 5</div>
+          <div class="breakdown-label">C · Vocabulary</div>
+          <div class="breakdown-score" id="score-c">0 / 10</div>
           <div class="breakdown-bar"><div class="breakdown-fill" id="bar-c"></div></div>
         </div>
         <div class="breakdown-card" data-section="D">
-          <div class="breakdown-label">D · Gap-Filling</div>
-          <div class="breakdown-score" id="score-d">0 / 14</div>
+          <div class="breakdown-label">D · Grammar</div>
+          <div class="breakdown-score" id="score-d">0 / 10</div>
           <div class="breakdown-bar"><div class="breakdown-fill" id="bar-d"></div></div>
         </div>
       </div>
